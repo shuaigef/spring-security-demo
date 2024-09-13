@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuaigef.springsecuritydemo.mapper.AuthorityMapper">
+
+    <resultMap id="BaseResultMap" type="com.shuaigef.springsecuritydemo.model.entity.Authority">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+            <result property="orderNo" column="order_no" jdbcType="INTEGER"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="authorityType" column="authority_type" jdbcType="VARCHAR"/>
+            <result property="routePath" column="route_path" jdbcType="VARCHAR"/>
+            <result property="hidden" column="hidden" jdbcType="TINYINT"/>
+            <result property="menuIcon" column="menu_icon" jdbcType="VARCHAR"/>
+            <result property="component" column="component" jdbcType="VARCHAR"/>
+            <result property="componentName" column="component_name" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,menu_name,
+        order_no,parent_id,authority_type,
+        route_path,hidden,menu_icon,
+        component,component_name,create_time,
+        update_time,is_delete
+    </sql>
+
+    <select id="findListByUserIdAndType" resultType="com.shuaigef.springsecuritydemo.model.entity.Authority">
+        SELECT a.*
+        FROM authority AS a
+               LEFT JOIN role_authority AS ra on ra.authority_id = a.id
+               LEFT JOIN user AS u on u.role_id = ra.role_id
+        WHERE u.id = #{userId}
+    </select>
+</mapper>
